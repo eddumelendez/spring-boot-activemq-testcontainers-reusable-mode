@@ -5,7 +5,7 @@ import org.springframework.boot.devtools.restart.RestartScope;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
-import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.activemq.ActiveMQContainer;
 
 public class ConsumerApplicationTests {
 
@@ -19,11 +19,10 @@ public class ConsumerApplicationTests {
     static class ContainerConfiguration {
 
         @Bean
-        @ServiceConnection(name = "symptoma/activemq")
+        @ServiceConnection
         @RestartScope
-        GenericContainer<?> activeMQContainer() {
-            return new GenericContainer<>("symptoma/activemq:5.18.0")
-                    .withExposedPorts(61616)
+        ActiveMQContainer activeMQContainer() {
+            return new ActiveMQContainer("apache/activemq-classic:5.18.3")
                     .withReuse(true);
         }
 
